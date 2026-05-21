@@ -1,48 +1,62 @@
-package ni.edu.uam.viewmodel
+package ni.edu.uam.model
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import ni.edu.uam.model.Mascota
+import kotlinx.serialization.Serializable
+import java.util.UUID
 
-class MascotaViewModel : ViewModel() {
+/**
+ * Modelo de datos que representa una mascota disponible para adopción.
+ *
+ * @property id Identificador único (UUID).
+ * @property nombre Nombre de la mascota.
+ * @property edad Edad en años.
+ * @property tipo Tipo de mascota (perro, gato, conejo, ave, etc.).
+ * @property raza Raza o descripción específica.
+ * @property genero Género de la mascota.
+ * @property descripcion Descripción larga, personalidad, etc.
+ * @property esFavorito Indica si está marcada como favorita.
+ * @property adoptada Indica si ya fue adoptada.
+ * @property fechaRegistro Fecha en que se registró (timestamp).
+ */
+@Serializable
+data class Mascota(
+    val id: String = UUID.randomUUID().toString(),
+    val nombre: String,
+    val edad: Int,
+    val tipo: TipoMascota,
+    val raza: String = "",
+    val genero: Genero = Genero.DESCONOCIDO,
+    val descripcion: String = "",
+    val esFavorito: Boolean = false,
+    val adoptada: Boolean = false,
+    val fechaRegistro: Long = System.currentTimeMillis()
+)
 
-    private val _mascotas = MutableStateFlow<List<Mascota>>(emptyList())
-    val mascotas: StateFlow<List<Mascota>> = _mascotas.asStateFlow()
+/**
+ * Tipos de mascota soportados. Cada tipo trae su emoji y etiqueta legible.
+ */
+@Serializable
+enum class TipoMascota(val etiqueta: String, val emoji: String) {
+    PERRO("Perro", "\uD83D\uDC36"),
+    GATO("Gato", "\uD83D\uDC31"),
+    CONEJO("Conejo", "\uD83D\uDC30"),
+    AVE("Ave", "\uD83D\uDC26"),
+    PEZ("Pez", "\uD83D\uDC1F"),
+    HAMSTER("Hámster", "\uD83D\uDC39"),
+    TORTUGA("Tortuga", "\uD83D\uDC22"),
+    OTRO("Otro", "\uD83D\uDC3E");
 
-    private var currentId: Long = 1
-
-    init {
-        agregarMascota("Firulais", "Perro", "Mestizo", 2, "Disponible")
-        agregarMascota("Mishi", "Gato", "Siamés", 1, "Disponible")
+    companion object {
+        fun fromEtiqueta(etiqueta: String): TipoMascota =
+            entries.firstOrNull { it.etiqueta.equals(etiqueta, ignoreCase = true) } ?: OTRO
     }
+}
 
-    fun agregarMascota(nombre: String, especie: String, raza: String, edad: Int, estado: String) {
-        val nuevaMascota = Mascota(
-            id = currentId++, nombre = nombre, especie = especie, raza = raza, edad = edad, estado = estado
-        )
-        _mascotas.update { it + nuevaMascota }
-    }
-
-    fun obtenerMascota(id: Long): Mascota? {
-        return _mascotas.value.find { it.id == id }
-    }
-
-    fun editarMascota(id: Long, nombre: String, especie: String, raza: String, edad: Int, estado: String) {
-        _mascotas.update { lista ->
-            lista.map { mascota ->
-                if (mascota.id == id) {
-                    mascota.copy(nombre = nombre, especie = especie, raza = raza, edad = edad, estado = estado)
-                } else {
-                    mascota
-                }
-            }
-        }
-    }
-
-    fun eliminarMascota(id: Long) {
-        _mascotas.update { lista -> lista.filter { it.id != id } }
-    }
+/**
+ * Género de la mascota.
+ */
+@Serializable
+enum class Genero(val etiqueta: String, val emoji: String) {
+    MACHO("Macho", "♂"),
+    HEMBRA("Hembra", "♀"),
+    DESCONOCIDO("Desconocido", "?")
 }
