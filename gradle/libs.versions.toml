@@ -1,6 +1,11 @@
 [versions]
+<<<<<<< Updated upstream
 agp = "9.2.1"
 coreKtx = "1.18.0"
+=======
+agp = "8.13.2"
+coreKtx = "1.15.0"
+>>>>>>> Stashed changes
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
