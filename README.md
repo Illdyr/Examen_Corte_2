@@ -1,6 +1,6 @@
 # PetAdopt
 
-** Sistema de gestión de adopción de mascotas — Examen Corte 2**
+**Sistema de gestión de adopción de mascotas — Examen Corte 2**
 Universidad Americana (UAM) · Programación Móvil
 
 PetAdopt es una aplicación Android nativa para administrar el catálogo de un refugio de mascotas. Permite registrar nuevos animales, marcar favoritas, registrar adopciones y buscar y filtrar el catálogo en tiempo real.
@@ -42,9 +42,3 @@ PetAdopt es una aplicación Android nativa para administrar el catálogo de un r
 4. El **FAB (+)** abre el formulario de **Registrar**.
 5. La pestaña **Favoritos** muestra solo las marcadas con corazón.
 6. La pestaña **Acerca de** describe la app y muestra el resumen del refugio.
-
----
-
-## Licencia
-
-Proyecto académico para el curso de Programación Móvil (UAM).
